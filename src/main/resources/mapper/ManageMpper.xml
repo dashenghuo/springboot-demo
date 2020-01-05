@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dalishen.demo.mapper.ManageMapper" >
+
+
+    <resultMap id="OpLogMap" type="com.dalishen.demo.bean.OpLog" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="module" property="module" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="VARCHAR" />
+        <result column="ip" property="ip" jdbcType="VARCHAR" />
+        <result column="result" property="result" jdbcType="VARCHAR" />
+        <result column="log_date" property="logDate" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+
+    <insert id="insert" parameterType="com.dalishen.demo.bean.OpLog" >
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into t_zb_op_log (module, content, ip, result, log_date, creator)
+        values (#{opLog.module}, #{opLog.content}, #{opLog.ip}, #{opLog.result}, #{opLog.logDate}, #{opLog.creator} )
+    </insert>
+
+    <select id="selectOpLogById" resultMap="OpLogMap" parameterType="java.lang.Long" >
+        select
+        id, module, content, ip, result, log_date, creator
+        from t_zb_op_log
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_zb_op_log
+    where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+</mapper>
