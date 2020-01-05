@@ -25,6 +25,10 @@ public class Printcontroller {
     public ResultVO login(@RequestParam(value = "account") String account,
                           @RequestParam(value = "password") String password,
                           HttpServletRequest request, HttpServletResponse response) {
+
+        request.getSession().setAttribute("account", account);
+        request.getSession().setAttribute("role", 1);
+
         String openapi = request.getContextPath();
         String method = request.getMethod();
         String uri = request.getServletPath();
