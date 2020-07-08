@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,7 +31,8 @@ public class Hellocontroller {
 
 
 
-    @PostMapping(value = "/login")
+//    @PostMapping(value = "/login")
+    @GetMapping(value = "/login")
     public ResultVO login(@RequestParam(value = "account") String account,
                           @RequestParam(value = "password") String password,
                           HttpServletRequest request, HttpServletResponse response) {
