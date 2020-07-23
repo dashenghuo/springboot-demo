@@ -1,6 +1,8 @@
 package com.dalishen.demo.controller;
 
 import com.dalishen.demo.bean.FileModifiedTimeBean;
+import com.dalishen.demo.bean.OpLog;
+import com.dalishen.demo.mapper.FileModifiedTimeMapper;
 import com.dalishen.demo.service.FileModifiedTimeService;
 import com.dalishen.demo.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
@@ -50,4 +52,22 @@ public class FileModifiedTimeController {
 
     }
 
+    @GetMapping(value = "/select")
+    public FileModifiedTimeBean selectFileModifiedTimeBeanById(@RequestParam(value = "id") Long id){
+
+        FileModifiedTimeBean fileModifiedTimeBean = fileModifiedTimeService.selectFileModifiedTimeBeanById(id);
+        log.info("selectFileModifiedTimeBeanById, fileModifiedTimeBean: [{}]", fileModifiedTimeBean.toString());
+        return fileModifiedTimeBean;
+    }
+
+
+
+    @GetMapping(value = "/select1")
+    public Map selectFileModifiedTimeBeanByFileName(@RequestParam(value = "lgoId") Long lgoId,
+                                                    @RequestParam(value = "filename") String filename){
+
+        Map resultMap = fileModifiedTimeService.selectFileModifiedTimeBeanByFileName(lgoId, filename);
+        log.info("selectFileModifiedTimeBeanByFileName, lgoId: [{}]，filename: [{}]", lgoId, filename);
+        return resultMap;
+    }
 }

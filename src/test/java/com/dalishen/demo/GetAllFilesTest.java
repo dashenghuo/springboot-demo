@@ -11,6 +11,9 @@ public class GetAllFilesTest {
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static void main(String[] args) {
+
+        System.out.println(null instanceof Object);
+
         File file = new File("D:\\work-doc\\ref\\fleaf\\WEB-INF\\classes");
         StringBuffer stringBuffer = new StringBuffer();
         if (file.isDirectory()) {

@@ -20,3 +20,8 @@ CREATE TABLE `t_file_modified_time` (
   `creator` varchar(100) NOT NULL DEFAULT '' COMMENT '该记录创建者',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=10156 DEFAULT CHARSET=utf8 COMMENT='文件最近修改时间表';
+
+
+ctl:  入参  filename   oplogId
+      出参   resultmap   key-value  file  文件记录
+                        key-value  oplog    日志记录

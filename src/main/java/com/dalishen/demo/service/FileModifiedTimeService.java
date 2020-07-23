@@ -2,9 +2,11 @@ package com.dalishen.demo.service;
 
 import com.dalishen.demo.bean.FileModifiedTimeBean;
 import com.dalishen.demo.bean.OpLog;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface FileModifiedTimeService {
 
@@ -16,7 +18,11 @@ public interface FileModifiedTimeService {
      */
     Long save2Mysql(List<FileModifiedTimeBean> fileModifiedTimeBeanList, String creator);
 
+    FileModifiedTimeBean selectFileModifiedTimeBeanById(Long id);
 
+    //OpLog selectFileModifiedTimeBeanByoplogId(Long id);
+
+    Map selectFileModifiedTimeBeanByFileName(Long id, String filename);
     /**
      * 读取 某个目录下的文件的信息转成  bean
      * @param rootPath  某个目录

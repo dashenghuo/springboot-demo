@@ -1,19 +1,22 @@
 package com.dalishen.demo.service.impl;
 
 import com.dalishen.demo.bean.FileModifiedTimeBean;
+import com.dalishen.demo.bean.OpLog;
 import com.dalishen.demo.mapper.FileModifiedTimeMapper;
+import com.dalishen.demo.mapper.ManageMapper;
 import com.dalishen.demo.service.FileModifiedTimeService;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
+@Slf4j
 public class FileModifiedTimeServiceImpl implements FileModifiedTimeService {
 
     private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -22,7 +25,8 @@ public class FileModifiedTimeServiceImpl implements FileModifiedTimeService {
     @Autowired
     private FileModifiedTimeMapper fileModifiedTimeMapper;
 
-
+    @Autowired
+    private ManageMapper manageMapper;
 
     /**
      * 将bean存储到 Mysql
@@ -41,6 +45,29 @@ public class FileModifiedTimeServiceImpl implements FileModifiedTimeService {
         return insertNumber;
     }
 
+
+
+    @Override
+    public Map selectFileModifiedTimeBeanByFileName(Long logId, String filename){
+
+        Map resultMap = new HashMap();
+        FileModifiedTimeBean fileModifiedTimeBean = fileModifiedTimeMapper.selectFileModifiedTimeBeanByFileName(filename);
+        OpLog opLog = manageMapper.selectOpLogById(logId);
+        log.info("selectFileModifiedTimeBeanByFileName, logId: [{}], filename: [{}]",
+                logId, filename);
+
+        resultMap.put("logid", opLog);
+        resultMap.put("filename", fileModifiedTimeBean);
+        return resultMap;
+    }
+
+    @Override
+    public FileModifiedTimeBean selectFileModifiedTimeBeanById(Long id){
+
+        FileModifiedTimeBean fileModifiedTimeBean = fileModifiedTimeMapper.selectFileModifiedTimeBeanById(id);
+        log.info("selectFileModifiedTimeBeanById, fileModifiedTimeBean: [{}]", fileModifiedTimeBean.toString());
+        return fileModifiedTimeBean;
+    }
     @Override
     public List<FileModifiedTimeBean> getFileModifiedTimeBeanFrom(String rootPath) {
         List<FileModifiedTimeBean> beanList = new ArrayList<>();
@@ -79,6 +106,8 @@ public class FileModifiedTimeServiceImpl implements FileModifiedTimeService {
 
 
     }
+
+
 
     public static String getTime(long time) {
         Date d = new Date(time);

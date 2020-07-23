@@ -2,9 +2,32 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.dalishen.demo.mapper.FileModifiedTimeMapper" >
 
+    <resultMap id="FileModifiedTimeBeanMap" type="com.dalishen.demo.bean.FileModifiedTimeBean" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="file_path" property="filePath" jdbcType="VARCHAR" />
+        <result column="file_name" property="fileName" jdbcType="VARCHAR" />
+        <result column="file_modified_time" property="modifiedTime" jdbcType="TIMESTAMP" />
+        <result column="create_date" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="creator" property="creator" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="selectFileModifiedTimeBeanById"
+            resultMap="FileModifiedTimeBeanMap" parameterType="java.lang.Long" >
+        select
+        id, file_path, file_name, file_modified_time, create_date, creator
+        from t_file_modified_time
+        where id = #{id,jdbcType=BIGINT}
+    </select>
 
 
 
+    <select id="selectFileModifiedTimeBeanByFileName"
+            resultMap="FileModifiedTimeBeanMap"  >
+        select
+        id, file_path, file_name, file_modified_time, create_date, creator
+        from t_file_modified_time
+        where file_name = #{fileName}
+    </select>
     <!-- 批量插入 -->
     <insert id ="batchInsert" parameterType="java.util.List" >
         insert into t_file_modified_time
