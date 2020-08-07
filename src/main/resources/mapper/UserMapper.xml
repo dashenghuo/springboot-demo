@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dalishen.demo.mapper.UserMapper">
+
+
+    <resultMap id="UserUriMap" type="com.dalishen.demo.bean.UserUri">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="roleId" property="roleId" jdbcType="VARCHAR"/>
+        <result column="rolename" property="rolename" jdbcType="VARCHAR"/>
+        <result column="uri_auth" property="uriAuth" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="selectUserByUsernameAndPassword" resultMap="UserUriMap">
+       SELECT  user1.id, user1.username, role.id roleId, role.rolename, auth.uri_auth
+        FROM t_user user1, t_role role, t_role_auth role_auth, t_auth auth
+        WHERE user1.role_id = role.id AND role.id = role_auth.role_id and role_auth.auth_id = auth.id
+        AND user1.username = #{username} AND user1.password = #{password} ;
+    </select>
+
+
+</mapper>

@@ -4,6 +4,7 @@ import com.dalishen.demo.service.PrintService;
 import com.dalishen.demo.vo.ResultVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,7 @@ public class Printcontroller {
     @Autowired
     private PrintService printService;
 
-    @PostMapping(value = "/print")
+    @GetMapping(value = "/print")
     public ResultVO login(@RequestParam(value = "account") String account,
                           @RequestParam(value = "password") String password,
                           HttpServletRequest request, HttpServletResponse response) {

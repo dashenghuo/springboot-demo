@@ -1,13 +1,22 @@
 package com.dalishen.demo.service.impl;
 
 import com.dalishen.demo.bean.OpLog;
+import com.dalishen.demo.bean.UserUri;
 import com.dalishen.demo.mapper.ManageMapper;
+import com.dalishen.demo.mapper.UserMapper;
 import com.dalishen.demo.service.PrintService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Slf4j
@@ -18,10 +27,23 @@ public class PrintServiceImpl implements PrintService {
     @Autowired
     private ManageMapper manageMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    @Resource(name = "redisTemplate1")
+    private RedisTemplate redisTemplate;
+
     @Override
     public String print(String account, String password) {
-        log.info("print, account:[{}], password:[{}] ", account, password);
-        return "printResults";
+
+        List<UserUri> userUriList = userMapper.selectUserByUsernameAndPassword(account,password);
+        Set uriset = new HashSet<>();
+        for (UserUri userUri: userUriList) {
+            uriset.add(userUri.getUriAuth());
+        }
+        redisTemplate.opsForSet().add(userUriList.get(0).getRoleId().toString(), uriset);
+        return userUriList.get(0).getRolename();
     }
 
     @Override
